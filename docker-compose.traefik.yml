@@ -12,21 +12,21 @@ services:
       - "--providers.file.directory=/etc/traefik/dynamic"
       - "--providers.file.watch=true"
       - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
+      # - "--entrypoints.websecure.address=:443"
       # The following is for automatic Let's Encrypt SSL certificates.
-      - "--certificatesresolvers.leresolver.acme.httpchallenge=true"
-      - "--certificatesresolvers.leresolver.acme.httpchallenge.entrypoint=web"
-      - "--certificatesresolvers.leresolver.acme.email=dev@unipub.org" # IMPORTANT: Change this!
-      - "--certificatesresolvers.leresolver.acme.storage=/letsencrypt/acme.json"
+      # - "--certificatesresolvers.leresolver.acme.httpchallenge=true"
+      # - "--certificatesresolvers.leresolver.acme.httpchallenge.entrypoint=web"
+      # - "--certificatesresolvers.leresolver.acme.email=dev@unipub.org" # IMPORTANT: Change this!
+      # - "--certificatesresolvers.leresolver.acme.storage=/letsencrypt/acme.json"
     ports:
       - "80:80"
-      - "443:443"
+      # - "443:443"
       - "8080:8080" # Traefik Dashboard (for debugging)
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       # Mount the directory for dynamic configuration files (read-only)
       - "./volumes/traefik/dynamic:/etc/traefik/dynamic:ro"
-      - "./volumes/letsencrypt:/letsencrypt" # Volume to store SSL certificates
+      # - "./volumes/letsencrypt:/letsencrypt" # Volume to store SSL certificates
     networks:
       - proxy
 

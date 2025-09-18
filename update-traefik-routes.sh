@@ -48,17 +48,10 @@ cat > "$TRAEFIK_ROUTER_FILE" <<EOF
 
 http:
   routers:
-    ojs-router-insecure:
+    ojs-router:
       rule: "Host(${HOST_RULE})"
       entryPoints: ["web"]
       service: "${TRAEFIK_SERVICE_NAME}@docker"
-
-    ojs-router-secure:
-      rule: "Host(${HOST_RULE})"
-      entryPoints: ["websecure"]
-      service: "${TRAEFIK_SERVICE_NAME}@docker"
-      tls:
-        certResolver: leresolver # Use the Let's Encrypt resolver
 EOF
 
 echo "✅ Traefik dynamic configuration updated successfully."
