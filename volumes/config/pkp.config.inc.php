@@ -30,7 +30,6 @@ name = "env:MYSQL_DATABASE"
 ; The driver to use for sending mail. For development, "log" is recommended.
 ; Valid options: "smtp", "sendmail", "log", "test"
 driver = log
-...
 
 ; --- Base URL overrides for specific journals ---
 ; The script will also pick up all of these.
