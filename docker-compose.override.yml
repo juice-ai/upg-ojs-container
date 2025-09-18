@@ -1,0 +1,19 @@
+# File: docker-compose.override.yml
+# Author: Marc Bria UAB (marc.bria@uab.es)
+
+services:
+  app:
+    labels:
+      # Enable Traefik for this service.
+      - "traefik.enable=true"
+      # Define a service named 'ojs-app' that our file-based router can reference.
+      # The router will use 'ojs-app@docker' to find this service.
+      # The port must match the internal port of the container (Apache is on 80).
+      - "traefik.http.services.ojs-app.loadbalancer.server.port=80"
+
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true

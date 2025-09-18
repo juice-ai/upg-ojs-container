@@ -13,5 +13,4 @@ restful_urls = On
 ; --- Base URL overrides for specific journals ---
 ; The script will also pick up all of these.
 base_url[hbgr] = "https://submissions.hgbr.org"
-base_url[gbej] = "https://submissions.gbej.com"
-base_url[path] = "https://submissions.path.ai"
+base_url[gbej] = "https://submissions.gbej.org"
