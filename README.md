@@ -41,6 +41,27 @@ Check your .env file to know the SERVERNAME, the HTTP_PORT, the DB parameters...
 
 You can find more detailed instructions on how to RUN the official images in [this document](https://github.com/pkp/containers/blob/main/docs/easyOJS.md).
 
+### To RUN with Traefik (for automatic HTTPS)
+
+This project includes configuration for running with [Traefik](https://traefik.io/traefik/), a reverse proxy that can automatically provision and renew SSL certificates from Let's Encrypt.
+
+1.  First, create the shared `proxy` network that Traefik and the OJS application will use to communicate:
+    ```bash
+    docker network create proxy
+    ```
+
+2.  In `docker-compose.traefik.yml`, find the line with `"--certificatesresolvers.leresolver.acme.email=your-email@example.com"` and replace `your-email@example.com` with your actual email address.
+
+3.  Start the services using the main, override, and Traefik compose files. This command combines the configurations to run the OJS app, the database, and the Traefik proxy.
+    ```bash
+    docker compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.traefik.yml up -d
+    ```
+
+4.  Run the `update-traefik-routes.sh` script to automatically configure Traefik's routing based on the domains in your OJS `config.inc.php` file:
+    ```bash
+    ./update-traefik-routes.sh
+    ```
+
 ### To BUILD your own image:
 
 ```

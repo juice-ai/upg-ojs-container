@@ -16,7 +16,7 @@ services:
       # The following is for automatic Let's Encrypt SSL certificates.
       - "--certificatesresolvers.leresolver.acme.httpchallenge=true"
       - "--certificatesresolvers.leresolver.acme.httpchallenge.entrypoint=web"
-      - "--certificatesresolvers.leresolver.acme.email=your-email@example.com" # IMPORTANT: Change this!
+      - "--certificatesresolvers.leresolver.acme.email=dev@unipub.org" # IMPORTANT: Change this!
       - "--certificatesresolvers.leresolver.acme.storage=/letsencrypt/acme.json"
     ports:
       - "80:80"
