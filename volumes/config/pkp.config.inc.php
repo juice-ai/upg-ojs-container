@@ -14,7 +14,7 @@ restful_urls = On
 ;;;;;;;;;;;;;;;;;;;;
 
 [database]
-driver = "env:DB_DRIVER"
+driver = "mysqli"
 host = "env:DB_HOST"
 username = "env:MYSQL_USER"
 password = "env:MYSQL_PASSWORD"
