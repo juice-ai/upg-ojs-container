@@ -11,6 +11,8 @@ services:
       - "--providers.docker.exposedbydefault=false"
       - "--providers.file.directory=/etc/traefik/dynamic"
       - "--providers.file.watch=true"
+      - "--accesslog=true"
+      - "--accesslog.filepath=/var/log/access.log"
       - "--entrypoints.web.address=:80"
       # - "--entrypoints.websecure.address=:443"
       # The following is for automatic Let's Encrypt SSL certificates.
@@ -26,6 +28,8 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       # Mount the directory for dynamic configuration files (read-only)
       - "./volumes/traefik/dynamic:/etc/traefik/dynamic:ro"
+      # Mount a volume to store Traefik's access logs persistently.
+      - "./volumes/logs/traefik:/var/log"
       # - "./volumes/letsencrypt:/letsencrypt" # Volume to store SSL certificates
     networks:
       - proxy
