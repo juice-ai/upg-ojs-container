@@ -1,4 +1,4 @@
-// In volumes/config/pkp.config.inc.php
+; In volumes/config/pkp.config.inc.php
 
 [general]
 
@@ -34,7 +34,7 @@ name = "env:MYSQL_DATABASE"
 
 ; The driver to use for sending mail. For development, "log" is recommended.
 ; Valid options: "smtp", "sendmail", "log", "test"
-driver = log
+default = "log"
 
 
 ;;;;;;;;;;;;;;;;
@@ -45,7 +45,7 @@ driver = log
 
 ; The type of object cache to use.
 ; For development, "none" is a safe choice.
-object_cache = none
+object_cache = "none"
 
 ; The web cache to use.
-web_cache = none
+web_cache = "none"
