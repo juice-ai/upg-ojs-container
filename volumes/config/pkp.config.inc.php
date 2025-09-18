@@ -8,6 +8,18 @@ base_url = "https://unijournal.org"
 ; Ensure restful_urls is On for clean URLs
 restful_urls = On
 
+
+;;;;;;;;;;;;;;;;;;;;
+; Database Settings ;
+;;;;;;;;;;;;;;;;;;;;
+
+[database]
+driver = mysqli
+host = "db"
+username = "pkp"
+password = "changeMePlease" ; IMPORTANT: Use the value from your .env file's MYSQL_PASSWORD
+name = "pkp"
+
 ...
 
 ; --- Base URL overrides for specific journals ---
