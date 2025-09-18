@@ -1,4 +1,26 @@
-.swp
-.sandbox
-older
-/.env
+# --- Environment ---
+# Ignore local environment variables file. It may contain secrets.
+# It's a good practice to commit a .env.example file instead.
+.env
+
+# --- Docker Volumes ---
+# Ignore contents of volumes that store persistent data, logs, or generated files.
+
+# Ignore database data files, but keep the README for context.
+/volumes/db/*
+!/volumes/db/README.md
+
+# Ignore private file uploads.
+/volumes/private/
+
+# Ignore public file uploads.
+/volumes/public/
+
+# Ignore all log files.
+/volumes/logs/
+
+# Ignore Let's Encrypt SSL certificates.
+/volumes/letsencrypt/
+
+# Ignore auto-generated Traefik routing configuration.
+/volumes/traefik/dynamic/
