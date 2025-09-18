@@ -3,7 +3,7 @@
 [general]
 
 ; The base URL of the main site. This will be picked up by the script.
-base_url = "https://adminjournal.org"
+base_url = "https://unijournal.org"
 
 ; Ensure restful_urls is On for clean URLs
 restful_urls = On

@@ -4,12 +4,12 @@
 http:
   routers:
     ojs-router-insecure:
-      rule: "Host(`adminjournal.org`,`submissions.gbej.org`,`submissions.hgbr.org`)"
+      rule: "Host(`submissions.gbej.org`,`submissions.hgbr.org`,`unijournal.org`)"
       entryPoints: ["web"]
       service: "ojs-app@docker"
 
     ojs-router-secure:
-      rule: "Host(`adminjournal.org`,`submissions.gbej.org`,`submissions.hgbr.org`)"
+      rule: "Host(`submissions.gbej.org`,`submissions.hgbr.org`,`unijournal.org`)"
       entryPoints: ["websecure"]
       service: "ojs-app@docker"
       tls:
