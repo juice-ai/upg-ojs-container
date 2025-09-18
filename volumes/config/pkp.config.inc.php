@@ -49,3 +49,16 @@ object_cache = "none"
 
 ; The web cache to use.
 web_cache = "none"
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Internationalization    ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[i18n]
+
+; Default locale
+locale = "en_US"
+
+; Client output/input character set
+client_charset = "utf-8"
