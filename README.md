@@ -51,7 +51,6 @@ This project includes configuration for running with [Traefik](https://traefik.i
     ```bash
     ./manage.sh start
     ```
-
 To stop, restart, or view logs for your services, you can use the following commands:
 - `./manage.sh stop`
 - `./manage.sh restart`
