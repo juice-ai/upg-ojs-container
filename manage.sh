@@ -34,7 +34,7 @@ update_routes() {
 
 # Function to display usage information.
 usage() {
-  echo "Usage: $0 {start|stop|restart|logs|status|update-routes|shell}"
+  echo "Usage: $0 {start|stop|restart|logs|status|update-routes|shell|reset}"
   echo "Commands:"
   echo "  start         - Start the services in the background."
   echo "  stop          - Stop and remove the services."
@@ -43,6 +43,7 @@ usage() {
   echo "  status        - Show the status of the services."
   echo "  update-routes - Regenerate Traefik routing rules from OJS config."
   echo "  shell         - Open a bash shell inside the 'app' container."
+  echo "  reset         - Stop services and delete all persistent data for a fresh install."
   exit 1
 }
 
@@ -94,6 +95,23 @@ case "$ACTION" in
   shell)
     echo "🐚 Opening a shell in the 'app' container..."
     $COMPOSE_CMD exec app bash
+    ;;
+  reset)
+    echo "⚠️  WARNING: This will permanently delete all database data and user files."
+    read -p "Are you sure you want to continue? [y/N] " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+      echo "🛑 Stopping services..."
+      $COMPOSE_CMD down
+      echo "🔥 Deleting persistent data from ./volumes/ (db, private, public)..."
+      # Use find to be safer and avoid deleting the directories themselves or hidden files
+      find ./volumes/db -mindepth 1 ! -name 'README.md' -delete
+      find ./volumes/private -mindepth 1 -delete
+      find ./volumes/public -mindeph 1 -delete
+      echo "✅ Data volumes have been reset. You can now run './manage.sh start' for a fresh installation."
+    else
+      echo "Aborted."
+    fi
     ;;
   *)
     echo "❌ Error: Unknown command '$ACTION'"
