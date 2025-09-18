@@ -3,6 +3,10 @@
 
 services:
   app:
+    # When running behind Traefik, the app container should not publish its ports directly.
+    # Traefik handles external traffic on ports 80 and 443 and routes it to the app container
+    # over the internal 'proxy' network. We override the ports section with an empty list.
+    ports: []
     labels:
       # Enable Traefik for this service.
       - "traefik.enable=true"
