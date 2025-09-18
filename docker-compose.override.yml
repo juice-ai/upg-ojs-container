@@ -17,7 +17,7 @@ services:
       # The router will use 'ojs-app@docker' to find this service.
       # The port must match the internal port of the container (Apache is on 80).
       - "traefik.http.services.ojs-app.loadbalancer.server.port=80"
-
+  
     networks:
       - proxy
 
