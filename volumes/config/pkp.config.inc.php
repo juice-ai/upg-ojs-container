@@ -20,6 +20,16 @@ username = "env:MYSQL_USER"
 password = "env:MYSQL_PASSWORD"
 name = "env:MYSQL_DATABASE"
 
+
+;;;;;;;;;;;;;;;;;;
+; Email Settings ;
+;;;;;;;;;;;;;;;;;;
+
+[email]
+
+; The driver to use for sending mail. For development, "log" is recommended.
+; Valid options: "smtp", "sendmail", "log", "test"
+driver = log
 ...
 
 ; --- Base URL overrides for specific journals ---
