@@ -1,0 +1,35 @@
+# File: docker-compose.traefik.yml
+# Defines the Traefik reverse proxy service
+
+services:
+  traefik:
+    image: "traefik:v2.11"
+    container_name: "traefik"
+    command:
+      - "--api.insecure=true" # For debugging, access dashboard at http://localhost:8080/
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.file.directory=/etc/traefik/dynamic"
+      - "--providers.file.watch=true"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      # The following is for automatic Let's Encrypt SSL certificates.
+      - "--certificatesresolvers.leresolver.acme.httpchallenge=true"
+      - "--certificatesresolvers.leresolver.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.leresolver.acme.email=your-email@example.com" # IMPORTANT: Change this!
+      - "--certificatesresolvers.leresolver.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080" # Traefik Dashboard (for debugging)
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      # Mount the directory for dynamic configuration files (read-only)
+      - "./volumes/traefik/dynamic:/etc/traefik/dynamic:ro"
+      - "./volumes/letsencrypt:/letsencrypt" # Volume to store SSL certificates
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    name: proxy
