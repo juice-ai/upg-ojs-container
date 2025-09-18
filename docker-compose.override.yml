@@ -10,6 +10,9 @@ services:
     labels:
       # Enable Traefik for this service.
       - "traefik.enable=true"
+      # Explicitly tell Traefik to use the 'proxy' network to communicate with this service.
+      # This is necessary because the 'app' container is attached to multiple networks.
+      - "traefik.docker.network=proxy"
       # Define a service named 'ojs-app' that our file-based router can reference.
       # The router will use 'ojs-app@docker' to find this service.
       # The port must match the internal port of the container (Apache is on 80).
