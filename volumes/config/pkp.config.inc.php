@@ -8,6 +8,11 @@ base_url = "http://unijournal.org"
 ; Ensure restful_urls is On for clean URLs
 restful_urls = On
 
+; --- Base URL overrides for specific journals ---
+; The script will also pick up all of these.
+base_url[hbgr] = "http://submissions.hgbr.org"
+base_url[gbej] = "http://submissions.gbej.org"
+
 
 ;;;;;;;;;;;;;;;;;;;;
 ; Database Settings ;
@@ -44,7 +49,3 @@ object_cache = none
 
 ; The web cache to use.
 web_cache = none
-; --- Base URL overrides for specific journals ---
-; The script will also pick up all of these.
-base_url[hbgr] = "http://submissions.hgbr.org"
-base_url[gbej] = "http://submissions.gbej.org"
