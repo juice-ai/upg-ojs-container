@@ -34,7 +34,7 @@ update_routes() {
 
 # Function to display usage information.
 usage() {
-  echo "Usage: $0 {start|stop|restart|logs|status|update-routes}"
+  echo "Usage: $0 {start|stop|restart|logs|status|update-routes|shell}"
   echo "Commands:"
   echo "  start         - Start the services in the background."
   echo "  stop          - Stop and remove the services."
@@ -42,6 +42,7 @@ usage() {
   echo "  logs          - View the logs from all services."
   echo "  status        - Show the status of the services."
   echo "  update-routes - Regenerate Traefik routing rules from OJS config."
+  echo "  shell         - Open a bash shell inside the 'app' container."
   exit 1
 }
 
@@ -89,6 +90,10 @@ case "$ACTION" in
     ;;
   update-routes)
     update_routes
+    ;;
+  shell)
+    echo "🐚 Opening a shell in the 'app' container..."
+    $COMPOSE_CMD exec app bash
     ;;
   *)
     echo "❌ Error: Unknown command '$ACTION'"
