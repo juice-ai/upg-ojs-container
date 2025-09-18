@@ -21,6 +21,7 @@ base_url[gbej] = "http://submissions.gbej.org"
 [database]
 driver = "mysqli"
 host = "env:DB_HOST"
+host = "db"
 username = "env:MYSQL_USER"
 password = "env:MYSQL_PASSWORD"
 name = "env:MYSQL_DATABASE"
