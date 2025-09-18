@@ -31,6 +31,19 @@ name = "env:MYSQL_DATABASE"
 ; Valid options: "smtp", "sendmail", "log", "test"
 driver = log
 
+
+;;;;;;;;;;;;;;;;
+; Cache Cache ;
+;;;;;;;;;;;;;;;;
+
+[cache]
+
+; The type of object cache to use.
+; For development, "none" is a safe choice.
+object_cache = none
+
+; The web cache to use.
+web_cache = none
 ; --- Base URL overrides for specific journals ---
 ; The script will also pick up all of these.
 base_url[hbgr] = "http://submissions.hgbr.org"
