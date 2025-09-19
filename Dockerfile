@@ -8,8 +8,9 @@ ARG BUILD_PKP_APP_PATH=/app                # Where app is built.
 ARG BUILD_LABEL=notset
 
 
+# FROM moved above with default value to prevent blank base name error
 # Stage 1: Download PKP source code from released tarball.
-FROM ${BUILD_PKP_APP_OS} AS pkp_code
+FROM ${BUILD_PKP_APP_OS:-alpine:3.22} AS pkp_code
 
 ARG PKP_TOOL	    	\
     PKP_VERSION		\
@@ -26,7 +27,7 @@ RUN apk add --no-cache curl tar && \
 
 
 # Stage 2: Build PHP extensions and dependencies
-FROM ${WEB_SERVER} AS pkp_build
+FROM ${WEB_SERVER:-php:8.2-apache} AS pkp_build
 
 # Packages needed to build PHP extensions
 ENV PKP_DEPS="\
@@ -99,7 +100,7 @@ RUN apt-get update && \
 
 
 # Stage 3: Final lightweight image
-FROM ${WEB_SERVER}
+FROM ${WEB_SERVER:-php:8.2-apache}
 
 ARG PKP_TOOL \
     PKP_VERSION \

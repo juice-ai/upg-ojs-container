@@ -20,11 +20,14 @@ base_url[gbej] = "http://submissions.gbej.org"
 
 [database]
 driver = "mysqli"
-host = "env:DB_HOST"
+host = "db"
 username = "env:MYSQL_USER"
 password = "env:MYSQL_PASSWORD"
 name = "env:MYSQL_DATABASE"
 
+; Use a case-insensitive collation for database string comparisons
+; For MySQL/MariaDB, "utf8_general_ci" or "utf8mb4_unicode_ci" are good choices.
+collation = "utf8_general_ci"
 
 ;;;;;;;;;;;;;;;;;;
 ; Email Settings ;
@@ -62,3 +65,6 @@ locale = "en_US"
 
 ; Client output/input character set
 client_charset = "utf-8"
+
+; Character set for database connections (ensure it matches the database)
+connection_charset = "utf8"
