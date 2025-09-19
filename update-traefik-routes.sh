@@ -8,8 +8,10 @@ set -e
 OJS_CONFIG_FILE="./volumes/config/pkp.config.inc.php"
 TRAEFIK_CONFIG_DIR="./volumes/traefik/dynamic"
 TRAEFIK_ROUTER_FILE="${TRAEFIK_CONFIG_DIR}/ojs-routers.yml"
-# This service name must match the one defined in docker-compose.override.yml
-TRAEFIK_SERVICE_NAME="ojs-app"
+# This service name must match the service name in docker-compose.yml
+TRAEFIK_SERVICE_NAME="app"
+# The name of the Let's Encrypt resolver defined in docker-compose.traefik.yml
+CERT_RESOLVER="leresolver"
 
 # --- Script ---
 
@@ -48,10 +50,30 @@ cat > "$TRAEFIK_ROUTER_FILE" <<EOF
 
 http:
   routers:
-    ojs-router:
+    # Insecure router for HTTP -> HTTPS redirection
+    ojs-router-insecure:
       rule: "Host(${HOST_RULE})"
-      entryPoints: ["web"]
+      entryPoints:
+        - "web"
+      middlewares:
+        - "redirect-to-https"
+      service: "noop@internal" # No need to forward, just redirect
+
+    # Secure router for HTTPS traffic
+    ojs-router-secure:
+      rule: "Host(${HOST_RULE})"
+      entryPoints:
+        - "websecure"
       service: "${TRAEFIK_SERVICE_NAME}@docker"
+      tls:
+        certResolver: "${CERT_RESOLVER}"
+
+  middlewares:
+    # Middleware to redirect HTTP to HTTPS
+    redirect-to-https:
+      redirectScheme:
+        scheme: "https"
+        permanent: true
 EOF
 
 echo "✅ Traefik dynamic configuration updated successfully."
