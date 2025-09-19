@@ -1,16 +1,15 @@
 # Default build arguments (modify .env instead when "docker compose build")
 ARG PKP_TOOL=ojs                           # Options are: ojs, omp, ops.
 ARG PKP_VERSION=3_3_0-21                   # Same as PKP's versions.
-ARG WEB_SERVER=php:8.2-apache-bookworm     # Web server and PHP version
+ARG WEB_SERVER=php:8.2-apache              # Web server and PHP version
 ARG WEB_USER=www-data                      # Web user for web server (www-data,33)
 ARG BUILD_PKP_APP_OS=alpine:3.22           # OS used to build (not run).  
 ARG BUILD_PKP_APP_PATH=/app                # Where app is built.
 ARG BUILD_LABEL=notset
 
 
-# FROM moved above with default value to prevent blank base name error
 # Stage 1: Download PKP source code from released tarball.
-FROM ${BUILD_PKP_APP_OS:-alpine:3.22} AS pkp_code
+FROM ${BUILD_PKP_APP_OS} AS pkp_code
 
 ARG PKP_TOOL	    	\
     PKP_VERSION		\
@@ -27,7 +26,7 @@ RUN apk add --no-cache curl tar && \
 
 
 # Stage 2: Build PHP extensions and dependencies
-FROM php:8.2-apache-bookworm AS pkp_build
+FROM ${WEB_SERVER} AS pkp_build
 
 # Packages needed to build PHP extensions
 ENV PKP_DEPS="\
@@ -100,7 +99,7 @@ RUN apt-get update && \
 
 
 # Stage 3: Final lightweight image
-FROM php:8.2-apache-bookworm
+FROM ${WEB_SERVER}
 
 ARG PKP_TOOL \
     PKP_VERSION \
@@ -121,14 +120,14 @@ LABEL io.containers.rootless="true"
 ENV SERVERNAME="localhost" \
     WWW_PATH_CONF="/etc/apache2/apache2.conf" \
     WWW_PATH_ROOT="/var/www" \
-    HTTPS="off" \
+    HTTPS="on" \
     PKP_CLI_INSTALL="0" \
     PKP_DB_HOST="${PKP_DB_HOST:-db}" \
     PKP_DB_NAME="${PKP_DB_NAME:-pkp}" \
     PKP_DB_USER="${PKP_DB_USER:-pkp}" \
     PKP_DB_PASSWORD="${PKP_DB_PASSWORD:-changeMePlease}" \
     PKP_WEB_CONF="/etc/apache2/conf-enabled/pkp.conf" \
-    PKP_CONF="/var/www/html/config/pkp.config.inc.php" \
+    PKP_CONF="config.inc.php" \
     PKP_CMD="/usr/local/bin/pkp-start"
 
 ENV PKP_RUNTIME_LIBS="\
@@ -198,7 +197,7 @@ COPY "volumes/config/apache.pkp.conf" "${PKP_WEB_CONF}"
 # - Set certificates
 # - Create container.version file
 RUN a2enmod rewrite ssl && \
-    mkdir -p /etc/ssl/apache2 "${WWW_PATH_ROOT}/files" /run/apache2 /var/www/html/config && \
+    mkdir -p /etc/ssl/apache2 "${WWW_PATH_ROOT}/files" /run/apache2 && \
     \
     echo "log_errors = On" >> /usr/local/etc/php/conf.d/log-errors.ini && \
     echo "error_log = /dev/stderr" >> /usr/local/etc/php/conf.d/log-errors.ini && \
