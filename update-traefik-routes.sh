@@ -50,30 +50,12 @@ cat > "$TRAEFIK_ROUTER_FILE" <<EOF
 
 http:
   routers:
-    # Insecure router for HTTP -> HTTPS redirection
-    ojs-router-insecure:
+    # HTTP router for OJS (HTTPS is disabled)
+    ojs-router:
       rule: "Host(${HOST_RULE})"
       entryPoints:
         - "web"
-      middlewares:
-        - "redirect-to-https"
-      service: "noop@internal" # No need to forward, just redirect
-
-    # Secure router for HTTPS traffic
-    ojs-router-secure:
-      rule: "Host(${HOST_RULE})"
-      entryPoints:
-        - "websecure"
       service: "${TRAEFIK_SERVICE_NAME}@docker"
-      tls:
-        certResolver: "${CERT_RESOLVER}"
-
-  middlewares:
-    # Middleware to redirect HTTP to HTTPS
-    redirect-to-https:
-      redirectScheme:
-        scheme: "https"
-        permanent: true
 EOF
 
 echo "✅ Traefik dynamic configuration updated successfully."
