@@ -25,10 +25,10 @@ fi
 # Create the directory for Traefik's dynamic config if it doesn't exist
 mkdir -p "$TRAEFIK_CONFIG_DIR"
 
-# Extract hostnames from all 'base_url' entries
+# Extract hostnames from all 'base_url' entries using a pipe as a sed delimiter for readability
 # This finds lines like: base_url = "https://domain.one" or base_url[journal] = "http://domain.two"
-HOSTNAMES=$(grep -Eo '^\s*base_url.*=\s*".*"' "$OJS_CONFIG_FILE" | \
-            sed -E 's/.*"(https|http):\/\/([^/"]+).*/\2/' | \
+HOSTNAMES=$(grep -oP '^\s*base_url.*=\s*"\K(https?://)?([^/"]+)' "$OJS_CONFIG_FILE" | \
+            sed -E 's|.*//||' | \
             sort -u) # sort -u to get unique hostnames
 
 if [ -z "$HOSTNAMES" ]; then
