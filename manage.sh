@@ -8,16 +8,8 @@
 set -e
 
 # --- Configuration ---
-# List of Docker Compose files to use for the Traefik setup.
-# This ensures consistency across all commands.
-COMPOSE_FILES=(
-  -f docker-compose.yml
-  -f docker-compose.override.yml
-  -f docker-compose.traefik.yml
-)
-
 # The base command for all Docker Compose operations.
-COMPOSE_CMD="docker compose ${COMPOSE_FILES[*]}"
+COMPOSE_CMD="docker compose -f docker-compose.yml"
 
 # --- Functions ---
 
@@ -71,6 +63,8 @@ case "$ACTION" in
     # Start the containers. 'up -d' will create and start them.
     $COMPOSE_CMD up -d
     echo "✅ Services started."
+    echo "⏳ Waiting for Traefik to discover services..."
+    sleep 5
     # Automatically update routes on start.
     update_routes
     ;;
