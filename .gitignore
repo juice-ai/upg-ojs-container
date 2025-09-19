@@ -24,3 +24,5 @@
 
 # Ignore auto-generated Traefik routing configuration.
 /volumes/traefik/dynamic/
+
+/volumes/config/pkp.config.inc.php
