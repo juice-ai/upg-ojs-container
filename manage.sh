@@ -109,7 +109,7 @@ case "$ACTION" in
       # Use find to be safer and avoid deleting the directories themselves or hidden files
       find ./volumes/db -mindepth 1 ! -name 'README.md' -delete
       find ./volumes/private -mindepth 1 -delete
-      find ./volumes/public -mindeph 1 -delete
+      find ./volumes/public -mindepth 1 -delete
       echo "✅ Data volumes have been reset. You can now run './manage.sh start' for a fresh installation."
     else
       echo "Aborted."
