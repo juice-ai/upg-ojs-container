@@ -13,6 +13,24 @@ restful_urls = On
 base_url[hbgr] = "http://submissions.hgbr.org"
 base_url[gbej] = "http://submissions.gbej.org"
 
+; Short date format
+date_format_short = "%Y-%m-%d"
+
+; Long date format
+date_format_long = "%B %e, %Y"
+
+; Date format for truncated dates (e.g., can be used to display month and year only)
+date_format_trunc = "%Y-%m"
+
+; Short datetime format
+datetime_format_short = "%Y-%m-%d %I:%M %p"
+
+; Long datetime format
+datetime_format_long = "%B %e, %Y - %I:%M %p"
+
+; Time format
+time_format = "%I:%M %p"
+
 
 ;;;;;;;;;;;;;;;;;;;;
 ; Database Settings ;
