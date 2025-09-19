@@ -38,13 +38,10 @@ services:
     hostname: "${COMPOSE_PROJECT_NAME:-demo}"
     volumes:
       - /etc/localtime:/etc/localtime
-      - ./volumes/private:/var/www/files
+            - ./volumes/private:/var/www/files
       - ./volumes/public:/var/www/html/public
       - ./volumes/logs/app:/var/log/apache2
-      - ./volumes/config/pkp.config.inc.php:/var/www/html/config.inc.php
-      - ./volumes/config/apache.htaccess:/var/www/html/.htaccess
-      - ./volumes/config/apache.servername.conf:/etc/apache2/conf-enabled/servername.conf
-      - ./volumes/config/php.custom.ini:/usr/local/etc/php/conf.d/custom.ini
+      - ./volumes/config:/var/www/html/config
     networks:
       - proxy
       - inside

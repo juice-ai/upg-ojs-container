@@ -128,7 +128,7 @@ ENV SERVERNAME="localhost" \
     PKP_DB_USER="${PKP_DB_USER:-pkp}" \
     PKP_DB_PASSWORD="${PKP_DB_PASSWORD:-changeMePlease}" \
     PKP_WEB_CONF="/etc/apache2/conf-enabled/pkp.conf" \
-    PKP_CONF="config.inc.php" \
+    PKP_CONF="/var/www/html/config/pkp.config.inc.php" \
     PKP_CMD="/usr/local/bin/pkp-start"
 
 ENV PKP_RUNTIME_LIBS="\
@@ -198,7 +198,7 @@ COPY "volumes/config/apache.pkp.conf" "${PKP_WEB_CONF}"
 # - Set certificates
 # - Create container.version file
 RUN a2enmod rewrite ssl && \
-    mkdir -p /etc/ssl/apache2 "${WWW_PATH_ROOT}/files" /run/apache2 && \
+    mkdir -p /etc/ssl/apache2 "${WWW_PATH_ROOT}/files" /run/apache2 /var/www/html/config && \
     \
     echo "log_errors = On" >> /usr/local/etc/php/conf.d/log-errors.ini && \
     echo "error_log = /dev/stderr" >> /usr/local/etc/php/conf.d/log-errors.ini && \
