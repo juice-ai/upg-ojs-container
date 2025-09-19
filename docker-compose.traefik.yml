@@ -1,39 +1,29 @@
 # File: docker-compose.traefik.yml
-# Defines the Traefik reverse proxy service
+# Defines the Traefik reverse proxy service.
 
 services:
   traefik:
-    image: "traefik:v2.11"
-    container_name: "traefik"
+    image: traefik:v2.11
+    container_name: traefik
     command:
-      - "--api.insecure=true" # For debugging, access dashboard at http://localhost:8080/
+      - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--providers.file.directory=/etc/traefik/dynamic"
       - "--providers.file.watch=true"
-      - "--accesslog=true"
-      - "--accesslog.filepath=/var/log/access.log"
       - "--entrypoints.web.address=:80"
-      # - "--entrypoints.websecure.address=:443"
-      # The following is for automatic Let's Encrypt SSL certificates.
-      # - "--certificatesresolvers.leresolver.acme.httpchallenge=true"
-      # - "--certificatesresolvers.leresolver.acme.httpchallenge.entrypoint=web"
-      # - "--certificatesresolvers.leresolver.acme.email=dev@unipub.org" # IMPORTANT: Change this!
-      # - "--certificatesresolvers.leresolver.acme.storage=/letsencrypt/acme.json"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.leresolver.acme.email=${ACME_EMAIL:-your-email@example.com}"
+      - "--certificatesresolvers.leresolver.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.leresolver.acme.httpchallenge.entrypoint=web"
     ports:
       - "80:80"
-      # - "443:443"
-      - "8080:8080" # Traefik Dashboard (for debugging)
+      - "443:443"
+      - "8080:8080" # For Traefik dashboard
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      # Mount the directory for dynamic configuration files (read-only)
+      - "./volumes/traefik/letsencrypt:/letsencrypt"
       - "./volumes/traefik/dynamic:/etc/traefik/dynamic:ro"
-      # Mount a volume to store Traefik's access logs persistently.
-      - "./volumes/logs/traefik:/var/log"
-      # - "./volumes/letsencrypt:/letsencrypt" # Volume to store SSL certificates
     networks:
       - proxy
-
-networks:
-  proxy:
-    name: proxy
+    restart: unless-stopped

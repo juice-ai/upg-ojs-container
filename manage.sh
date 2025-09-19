@@ -59,8 +59,10 @@ ACTION=$1
 case "$ACTION" in
   start)
     echo "🚀 Starting services..."
-    sudo chown 999:999 ./volumes/db -R
-    sudo chown 33:33 ./volumes -R
+    # Set permissions for volumes. The order is important.
+    echo "🔐 Ensuring correct volume permissions (may require sudo)..."
+    sudo chown -R 33:33 ./volumes
+    sudo chown -R 999:999 ./volumes/db
     # First, ensure the external proxy network exists.
     docker network inspect proxy >/dev/null 2>&1 || {
       echo "🌐 Creating external 'proxy' network..."
