@@ -45,7 +45,10 @@ You can find more detailed instructions on how to RUN the official images in [th
 
 This project includes configuration for running with [Traefik](https://traefik.io/traefik/), a reverse proxy that can automatically provision and renew SSL certificates from Let's Encrypt. A helper script `manage.sh` is provided to simplify operations.
 
-1.  In `docker-compose.traefik.yml`, find the line with `"--certificatesresolvers.leresolver.acme.email=your-email@example.com"` and replace `your-email@example.com` with your actual email address.
+1.  **Set your email for SSL certificates.** Open your `.env` file and add a line for your email address, which is required by Let's Encrypt for certificate issuance and renewal notices:
+    ```
+    ACME_EMAIL=your-email@example.com
+    ```
 
 2.  Start the services. The script will automatically create the required `proxy` network, start the containers, and configure Traefik's routing rules based on your `config.inc.php`.
     ```bash
