@@ -27,7 +27,7 @@ RUN apk add --no-cache curl tar && \
 
 
 # Stage 2: Build PHP extensions and dependencies
-FROM ${WEB_SERVER:-php:8.2-apache} AS pkp_build
+FROM php:8.2-apache-bookworm AS pkp_build
 
 # Packages needed to build PHP extensions
 ENV PKP_DEPS="\
@@ -100,7 +100,7 @@ RUN apt-get update && \
 
 
 # Stage 3: Final lightweight image
-FROM ${WEB_SERVER:-php:8.2-apache}
+FROM php:8.2-apache-bookworm
 
 ARG PKP_TOOL \
     PKP_VERSION \
